@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const ChatMessage = ({message, sender}) => {
+
 
   return (
     <div className={`flex items-center gap-2 p-4 ${sender === "user" ? 'justify-end' : 'justify-start '}`}>
