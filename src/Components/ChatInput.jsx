@@ -1,33 +1,44 @@
-import React, { useState } from 'react'
-import { ArrowUp } from 'lucide-react';
+import React, { useState } from "react";
 
-const ChatInput = ({ onSend }) => {
+const ChatInput = ({ onSend, disabled }) => {
+  const [input, setInput] = useState("");
 
-  const [input, setInput] = useState("")
+  const handleSubmit = () => {
+    if (input.trim()) {
+      onSend(input);
+      setInput("");
+    }
+  };
 
-  function handleChange(e) {
-    setInput(e.target.value)
-  }  
-
-  function handleSend() {
-  if (!input.trim()) return
-  onSend(input)
-  setInput("")
-}
-
- function handleKeyDown(e){
-  if(e.key === 'Enter'){
-    handleSend();
-  }
- }
-
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
-    <div className='flex justify-between items-center gap-2  w-100% border border-gray-300 px-4 mx-2 mb-2 py-2 bg-white rounded-full mt-10'>
-        <input type="text" placeholder="Send message to Chatbot" value={input} onChange={handleChange} onKeyDown={handleKeyDown} size={30} className='rounded-[20px] outline-none px-4 py-2'/>
-        <button className='bg-blue-500 px-1 py-1 rounded-full cursor-pointer text-white' onClick={handleSend}><ArrowUp /></button>
+    <div className="border-t border-gray-300 p-3 bg-white">
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Type a message..."
+          disabled={disabled}
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={disabled || !input.trim()}
+          className="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        >
+          Send
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatInput
+export default ChatInput;

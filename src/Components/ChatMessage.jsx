@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import React from "react";
 
-const ChatMessage = ({message, sender}) => {
-
+const ChatMessage = ({ message, sender }) => {
+  const isUser = sender === "user";
 
   return (
-    <div className={`flex items-center gap-2 p-4  rounded-2xl text-sm  ${sender === "user" ? 'justify-end ' : 'justify-start '}`}>
-        {sender === "bot" && <img src="src/assets/chatbot.jpg" className='w-[30px]' alt="bot-image" />}
-        <p>{message}</p>
-        {sender === "user" && <img src="src/assets/user-icon.webp" className='w-[30px]' alt="user-image" />}
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+      <div
+        className={`max-w-[75%] px-4 py-2 rounded-2xl ${
+          isUser
+            ? "bg-blue-600 text-white rounded-br-sm"
+            : "bg-white text-gray-800 rounded-bl-sm shadow-sm"
+        }`}
+      >
+        <p className="text-sm">{message}</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatMessage
+export default ChatMessage;
